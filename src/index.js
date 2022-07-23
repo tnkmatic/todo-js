@@ -20,12 +20,15 @@ const onClickAdd = () => {
   completeButton.addEventListener("click", () => {
     // 完了リストに追加する
     const completeTarget = completeButton.parentNode.parentNode;
-    const todoText =
-      completeTarget.firstElementChild.firstElementChild.innerText;
-    console.log(todoText);
-    // TODO textContentをクリアしてしまうとdivも消えてしまう
-    completeTarget.textContent = null;
-    console.log(completeTarget);
+    const divRow = completeTarget.firstChild;
+
+    // div(list-row)の内容について完了・削除ボタンを削除する
+    const todoContents = divRow.childNodes;
+    for (let i = 1; i < todoContents.length; i++) {
+      //TODO ここがエラーする
+      divRow.removeChild(divRow.removeChild(todoContents.item(i)));
+    }
+    console.log(divRow);
 
     // 押された完了ボタンの行を未完了リストから消す
     deleteFromCompleteList(completeTarget);
