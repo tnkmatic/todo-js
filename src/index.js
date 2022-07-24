@@ -18,20 +18,30 @@ const onClickAdd = () => {
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
   completeButton.addEventListener("click", () => {
-    // 完了リストに追加する
+    // 完了リストに追加するために完了対象を取得
     const completeTarget = completeButton.parentNode.parentNode;
+    // div(list-row)の要素を取得
     const divRow = completeTarget.firstChild;
-
-    // div(list-row)の内容について完了・削除ボタンを削除する
-    const todoContents = divRow.childNodes;
-    for (let i = 1; i < todoContents.length; i++) {
-      //TODO ここがエラーする
-      divRow.removeChild(divRow.removeChild(todoContents.item(i)));
-    }
-    console.log(divRow);
+    // TODOの内容を取得
+    const todoText = divRow.firstElementChild.innerText;
 
     // 押された完了ボタンの行を未完了リストから消す
     deleteFromCompleteList(completeTarget);
+
+    // div(list-row)の子要素を初期化
+    divRow.textContent = null;
+    // 完了したTODOに表示するための子要素を生成
+    const p = document.createElement("p");
+    p.innerText = todoText;
+    const backButton = document.createElement("button");
+    backButton.innerText = "戻す";
+
+    // 要素を組み立てる
+    divRow.appendChild(p);
+    divRow.appendChild(backButton);
+    completeTarget.appendChild(divRow);
+
+    // 完了したTODOに追加
     document.getElementById("complete-list").appendChild(completeTarget);
   });
   //button生成(削除)
