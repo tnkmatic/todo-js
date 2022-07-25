@@ -35,6 +35,14 @@ const onClickAdd = () => {
     p.innerText = todoText;
     const backButton = document.createElement("button");
     backButton.innerText = "戻す";
+    backButton.addEventListener("click", () => {
+      // 完了TODOリストから削除する
+      const backTodo = backButton.parentNode.parentNode;
+      const backTodoText =
+        backTodo.firstElementChild.firstElementChild.innerText;
+      document.getElementById("complete-list").removeChild(backTodo);
+      // 未完了TODOに追加する
+    });
 
     // 要素を組み立てる
     divRow.appendChild(p);
