@@ -4,15 +4,8 @@ const onClickAdd = () => {
   //テキストボックスの値を取得して初期化する
   const inputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
-
-  //liタグ生成
-  const li = document.createElement("li");
-  //divタグ生成
-  const div = document.createElement("div");
-  div.className = "list-row";
-  //pタグ生成
-  const p = document.createElement("p");
-  p.innerText = inputText;
+  // TODOリストのひな形DOMを生成
+  const todoRecord = createTodoRecord(inputText);
 
   //button生成(完了)
   const completeButton = document.createElement("button");
@@ -61,20 +54,37 @@ const onClickAdd = () => {
   });
 
   //DOM構築
-  div.appendChild(p);
-  div.appendChild(completeButton);
-  div.appendChild(deleteButton);
-  li.appendChild(div);
+  //div.appendChild(completeButton);
+  //div.appendChild(deleteButton);
 
   //未完了リストに追加
-  document.getElementById("imcomplete-list").appendChild(li);
+  //document.getElementById("imcomplete-list").appendChild(li);
 };
 
 document
   .getElementById("add-button")
   .addEventListener("click", () => onClickAdd());
 
+// 未完了TODOリストに追加する
+const insertIncompleteList = (todoText) => {};
+
 // 未完了リストからタスクを削除する
 const deleteFromCompleteList = (deleteTarget) => {
   document.getElementById("imcomplete-list").removeChild(deleteTarget);
+};
+
+const createTodoRecord = (todoText) => {
+  //liタグ生成
+  const li = document.createElement("li");
+  //divタグ生成
+  const div = document.createElement("div");
+  div.className = "list-row";
+  //pタグ生成
+  const p = document.createElement("p");
+  p.innerText = todoText;
+  //DOM組み立て
+  div.appendChild(p);
+  li.appendChild(div);
+
+  return li;
 };
