@@ -4,37 +4,21 @@ const onClickAdd = () => {
   //テキストボックスの値を取得して初期化する
   const inputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
-  // TODOリストのひな形DOMを生成
+  // TODOリストの雛型DOMを生成
   const todoRecord = createTodoRecord(inputText);
+  console.log(todoRecord);
+  //未完了リストのレコードを生成
+  const InCompleteTodoRecord = createImcompleteTodoRecordRecord(todoRecord);
 
-  
+  // undefined 状態
+  console.log(InCompleteTodoRecord);
 
-
-  
-    // 要素を組み立てる
-    divRow.appendChild(p);
-    divRow.appendChild(backButton);
-    completeTarget.appendChild(divRow);
-
-    // 完了したTODOに追加
-    document.getElementById("complete-list").appendChild(completeTarget);
-  });
-
-  //DOM構築
-  //div.appendChild(completeButton);
-  //div.appendChild(deleteButton);
-
-  //未完了リストに追加
-  //document.getElementById("imcomplete-list").appendChild(li);
+  // 未完了リストに追加
+  addImcompleteTodoList(InCompleteTodoRecord);
 };
-
-document
-  .getElementById("add-button")
-  .addEventListener("click", () => onClickAdd());
 
 // 未完了TODOリストに追加する
 const insertIncompleteList = (todoText) => {};
-
 
 // TODOテキストのDOM要素を生成する
 const createTodoRecord = (todoText) => {
@@ -54,15 +38,16 @@ const createTodoRecord = (todoText) => {
 };
 
 // 未完了リストにTODO要素を追加する
-const createImcompleteTodo = (todoRecord) => {
+const createImcompleteTodoRecordRecord = (todoRecord) => {
   //button生成(完了)
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
   completeButton.addEventListener("click", () => {
     // TODOの内容を取得
-    const todoText = completeButton.parentNode.parentNode.firstElementChild.innerText;
+    const todoText =
+      completeButton.parentNode.parentNode.firstElementChild.innerText;
     // 押された完了ボタンの行を未完了リストから消す
-    deleteFromCompleteList(completeButton.parentNode.parentNode);
+    deleteFromImCompleteList(completeButton.parentNode.parentNode);
     //完了リストに表示するTODOテキストのDOM要素を生成する
     const todoRecordForCompleteList = createTodoRecord(todoText);
   });
@@ -72,14 +57,21 @@ const createImcompleteTodo = (todoRecord) => {
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
     // 押された削除ボタンの親タグ(li)を削除する
-    deleteFromCompleteList(deleteButton.parentNode.parentNode);
+    deleteFromImCompleteList(deleteButton.parentNode.parentNode);
   });
 };
 
 // 未完了リストからタスクを削除する
-const deleteFromCompleteList = (deleteTarget) => {
+const deleteFromImCompleteList = (deleteTarget) => {
   document.getElementById("imcomplete-list").removeChild(deleteTarget);
-}
+};
+
+// 未完了リストに未完了用のTODOレコードを追加する
+const addImcompleteTodoList = (imcompleteTodo) => {
+  const imcompleteList = document.getElementById("imcomplete-list");
+  imcompleteList.appendChild(imcompleteTodo);
+  return imcompleteList;
+};
 
 // 完了リストにTODO要素を追加する
 const createCompleteList = (todoRecord) => {
@@ -89,11 +81,14 @@ const createCompleteList = (todoRecord) => {
   backButton.addEventListener("click", () => {
     // 完了TODOリストから削除する
     const backTodo = backButton.parentNode.parentNode;
-    const backTodoText =
-      backTodo.firstElementChild.firstElementChild.innerText;
+    const backTodoText = backTodo.firstElementChild.firstElementChild.innerText;
     document.getElementById("complete-list").removeChild(backTodo);
     // 未完了TODOに追加する
-  };
+  });
   //戻すボタンをtodoRecordに追加する
-  todoRecord.firstElementChild.appendChild(backButton); 
+  todoRecord.firstElementChild.appendChild(backButton);
 };
+
+document
+  .getElementById("add-button")
+  .addEventListener("click", () => onClickAdd());
